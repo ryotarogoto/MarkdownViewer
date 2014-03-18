@@ -1,6 +1,7 @@
 var app = require('http').createServer(handler),
     io = require('socket.io').listen(app),
-    fs = require('fs');
+    fs = require('fs'),
+    markdown = require('markdown').markdown;
 
 app.listen(1337);
 io.set('log level', 1);
@@ -19,6 +20,7 @@ function handler(req, res) {
 
 io.sockets.on('connection', function(socket) {
     socket.on('emit_from_client', function(data) {
-        console.log(data);
+        //dataにはmarkdownのテキストが挿入されている
+        console.log(markdown.toHTML(data));
     });
 });
