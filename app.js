@@ -3,6 +3,7 @@ var app = require('http').createServer(handler),
     fs = require('fs');
 
 app.listen(1337);
+io.set('log level', 1);
 
 function handler(req, res) {
     fs.readFile(__dirname + '/index.html', function(err, data) {
@@ -15,3 +16,9 @@ function handler(req, res) {
         res.end();
     })
 }
+
+io.sockets.on('connection', function(socket) {
+    socket.on('emit_from_client', function(data) {
+        console.log(data);
+    });
+});
